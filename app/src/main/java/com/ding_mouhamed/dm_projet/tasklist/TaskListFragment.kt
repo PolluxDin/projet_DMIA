@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ding_mouhamed.dm_projet.databinding.FragmentTaskListBinding
+import com.ding_mouhamed.dm_projet.detail.DetailActivity
+
 //import com.ding_mouhamed.dm_projet.detail.DetailActivity
 //import java.util.*
 
@@ -34,7 +36,7 @@ class TaskListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val intent = Intent(context, DetailActivity::class.java)
         val recyclerView = binding.reList
         val button = binding.floatingActionButton
         recyclerView.adapter = adapter
@@ -42,7 +44,7 @@ class TaskListFragment : Fragment() {
 //            val newTask = Task(id = UUID.randomUUID().toString(), title = "Task ${taskList.size + 1}")
 //            taskList = taskList + newTask
 //            adapter.submitList(taskList)
-//            startActivity(intent)
+            startActivity(intent)
         }
 
         adapter.onClickDelete = {
