@@ -20,24 +20,25 @@ object MyTaskDiffCallback : DiffUtil.ItemCallback<Task>() {
 // l'IDE va râler ici car on a pas encore implémenté les méthodes nécessaires
 class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(MyTaskDiffCallback) {
 
-//    var currentList: List<Task> = emptyList()
 
     // on utilise `inner` ici afin d'avoir accès aux propriétés de l'adapter directement
     inner class TaskViewHolder(binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         private val idView = binding.taskId
         private val titleView = binding.taskTitle
         private val descriptionView = binding.taskDescription
-        fun bind(task: Task) {
+        private val deleteButton = binding.imageDeleteButton
+        fun bind(taskItem: Task) {
             // on affichera les données ici
-            idView.text = task.id
-            titleView.text = task.title
-            descriptionView.text = task.description
+            idView.text = taskItem.id
+            titleView.text = taskItem.title
+            descriptionView.text = taskItem.description
+            deleteButton.setOnClickListener { onClickDelete(taskItem) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-//        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task,parent,false)
+
         return TaskViewHolder(binding)
     }
 
@@ -46,8 +47,6 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(MyTask
         holder.bind(currentList[position])
     }
 
-//    override fun getItemCount(): Int {
-//
-//        return currentList.size
-//    }
+    var onClickDelete : (Task) -> Unit = {}
+
 }
