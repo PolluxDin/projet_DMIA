@@ -11,8 +11,18 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/task_id"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
         android:id="@+id/task_title"
-        android:background="@android:color/holo_blue_bright"
+        android:background="@android:color/holo_blue_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/task_description"
+        android:background="@android:color/holo_blue_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
