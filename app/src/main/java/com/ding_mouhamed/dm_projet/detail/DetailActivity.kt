@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,11 +37,16 @@ class DetailActivity : ComponentActivity() {
 
 @Composable
 fun Detail(onValidate: (Task) -> Unit) {
+    var taskTitle by remember { mutableStateOf( "") }
+    var taskDescription by remember { mutableStateOf("") }
+//    var
     Column(Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(text = "Task Detail", style = MaterialTheme.typography.h2)
-        Text(text = "title")
-        Text(text = "description")
+        OutlinedTextField(value = taskTitle, onValueChange = { taskTitle = it }, label = { Text("Title") })
+        OutlinedTextField(value = taskDescription, onValueChange = { taskDescription = it }, label = { Text("Description") })
+
+
 
         Button(onClick = {
             val newTask = Task(id = UUID.randomUUID().toString(), title = "New Task !")

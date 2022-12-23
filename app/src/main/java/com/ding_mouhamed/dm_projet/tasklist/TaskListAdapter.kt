@@ -10,11 +10,12 @@ import com.ding_mouhamed.dm_projet.databinding.ItemTaskBinding
 
 object MyTaskDiffCallback : DiffUtil.ItemCallback<Task>() {
     override fun areItemsTheSame(oldItem: Task, newItem: Task) : Boolean {
-        return true// comparaison: est-ce la même "entité" ? => même id?
+        return oldItem.id == newItem.id
+    // comparaison: est-ce la même "entité" ? => même id?
     }
 
     override fun areContentsTheSame(oldItem: Task, newItem: Task) : Boolean {
-        return true// comparaison: est-ce le même "contenu" ? => mêmes valeurs? (avec data class: simple égalité)
+        return oldItem == newItem// comparaison: est-ce le même "contenu" ? => mêmes valeurs? (avec data class: simple égalité)
     }
 }
 // l'IDE va râler ici car on a pas encore implémenté les méthodes nécessaires
@@ -37,8 +38,8 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(MyTask
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-
+        val binding =
+            ItemTaskBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return TaskViewHolder(binding)
     }
 
