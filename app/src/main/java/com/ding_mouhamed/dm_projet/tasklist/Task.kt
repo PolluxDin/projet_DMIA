@@ -1,8 +1,14 @@
 package com.ding_mouhamed.dm_projet.tasklist
 
 import android.accounts.AuthenticatorDescription
+import kotlinx.serialization.*
 
-data class Task(val id: String,
-                val title: String,
-                val description: String = "default description"
+@Serializable
+data class Task(
+    @SerialName("id")
+    val id: String,
+    @SerialName("content")
+    val title: String,
+    @SerialName("description")
+    val description: String = "default description"
 ):java.io.Serializable
