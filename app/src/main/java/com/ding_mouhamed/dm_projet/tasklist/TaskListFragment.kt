@@ -18,25 +18,23 @@ import kotlinx.coroutines.launch
 
 
 class TaskListFragment : Fragment() {
-    private var taskList = listOf<Task>(
-//        Task(id = "id_1", title = "Task 1", description = "description 1"),
-//        Task(id = "id_2", title = "Task 2"),
-//        Task(id = "id_3", title = "Task 3")
-    )
+//    private var taskList = listOf<Task>(
+////        Task(id = "id_1", title = "Task 1", description = "description 1"),
+////        Task(id = "id_2", title = "Task 2"),
+////        Task(id = "id_3", title = "Task 3")
+//    )
 //    private var emptyList = listOf<Task>()
     private val adapter = TaskListAdapter()
     private lateinit var binding: FragmentTaskListBinding
-//    val intent = Intent(context, DetailActivity::class.java)
+    private val viewModel: TasksListViewModel by viewModels()
+
     private val createTask =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-    // dans cette callback on récupèrera la task et on l'ajoutera à la liste
-//        val task = result.data?.getSerializableExtra("task") as Task?
             val task = result.data?.getSerializableExtra("task") as Task?
-        taskList = taskList + task!!
-        adapter.submitList(taskList)
+            viewModel.add(task!!)
     }
 
-    private val viewModel: TasksListViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +43,7 @@ class TaskListFragment : Fragment() {
     ): View {
         binding = FragmentTaskListBinding.inflate(inflater, container, false)
         val rootView = binding.root
-        adapter.submitList(taskList)
+//        adapter.submitList(taskList)
         return rootView
     }
 
@@ -64,16 +62,14 @@ class TaskListFragment : Fragment() {
         }
 
         adapter.onClickDelete = {
-            taskList = taskList - it
-            adapter.submitList(taskList)
+//            taskList = taskList - it
+//            adapter.submitList(taskList)
+            viewModel.remove(it)
         }
 
         lifecycleScope.launch { // on lance une coroutine car `collect` est `suspend`
             viewModel.tasksStateFlow.collect { newList ->
-                // cette lambda est executée à chaque fois que la liste est mise à jour dans le VM
-                // -> ici, on met à jour la liste dans l'adapter
                 adapter.submitList(newList)
-                taskList = newList
             }
         }
     }
@@ -87,7 +83,6 @@ class TaskListFragment : Fragment() {
     }
 
     private suspend fun mySuspendMethod(){
-//        // Ici on ne va pas gérer les cas d'erreur donc on force le crash avec "!!"
         try {
             val user = API.userWebService.fetchUser().body()!!
             binding.userTextView.text = user.name
