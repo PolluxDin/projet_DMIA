@@ -9,7 +9,6 @@ import retrofit2.Retrofit
 
 object API {
     private const val TOKEN = "0f835bad98a3e79285c3346af141d22e535263b4"
-
     private val retrofit by lazy {
         // client HTTP
         val okHttpClient = OkHttpClient.Builder()
