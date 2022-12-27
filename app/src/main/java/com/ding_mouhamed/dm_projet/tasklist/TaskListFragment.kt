@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION")
+//@file:Suppress("DEPRECATION")
 
 package com.ding_mouhamed.dm_projet.tasklist
 
@@ -18,20 +18,21 @@ import kotlinx.coroutines.launch
 
 
 class TaskListFragment : Fragment() {
-//    private var taskList = listOf<Task>(
-////        Task(id = "id_1", title = "Task 1", description = "description 1"),
-////        Task(id = "id_2", title = "Task 2"),
-////        Task(id = "id_3", title = "Task 3")
-//    )
-//    private var emptyList = listOf<Task>()
+
     private val adapter = TaskListAdapter()
     private lateinit var binding: FragmentTaskListBinding
     private val viewModel: TasksListViewModel by viewModels()
 
     private val createTask =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val task = result.data?.getSerializableExtra("task") as Task?
-            viewModel.add(task!!)
+            val task = result.data?.getSerializableExtra("Task") as Task?
+            val boolean = task == null
+            try {
+                viewModel.add(task!!)
+            }
+            catch (e:java.lang.NullPointerException){
+                println("crash here")
+            }
     }
 
 
@@ -42,9 +43,7 @@ class TaskListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTaskListBinding.inflate(inflater, container, false)
-        val rootView = binding.root
-//        adapter.submitList(taskList)
-        return rootView
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,16 +53,10 @@ class TaskListFragment : Fragment() {
         val button = binding.floatingActionButton
         recyclerView.adapter = adapter
         button.setOnClickListener{
-//            val newTask = Task(id = UUID.randomUUID().toString(), title = "Task ${taskList.size + 1}")
-//            taskList = taskList + newTask
-//            adapter.submitList(taskList)
-//            startActivity(intent)
             createTask.launch(intent)
         }
 
         adapter.onClickDelete = {
-//            taskList = taskList - it
-//            adapter.submitList(taskList)
             viewModel.remove(it)
         }
 
