@@ -16,6 +16,9 @@ import com.ding_mouhamed.dm_projet.databinding.FragmentTaskListBinding
 import com.ding_mouhamed.dm_projet.detail.DetailActivity
 import kotlinx.coroutines.launch
 
+import coil.load
+import android.widget.ImageView
+
 
 class TaskListFragment : Fragment() {
 
@@ -35,8 +38,6 @@ class TaskListFragment : Fragment() {
             }
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +52,7 @@ class TaskListFragment : Fragment() {
         val intent = Intent(context, DetailActivity::class.java)
         val recyclerView = binding.reList
         val button = binding.floatingActionButton
+        val imageView = binding.userImageView
         recyclerView.adapter = adapter
         button.setOnClickListener{
             createTask.launch(intent)
@@ -70,15 +72,18 @@ class TaskListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refresh()
+        var imageView = binding.userImageView
         lifecycleScope.launch {
             mySuspendMethod()
+
         }
+        imageView.load("https://goo.gl/gEgYUd")
     }
 
     private suspend fun mySuspendMethod(){
         try {
             val user = API.userWebService.fetchUser().body()!!
-            binding.userTextView.text = user.name
+            binding.userTextView.text =  user.name
         }
         catch (e:java.lang.NullPointerException){
             println("crash here")

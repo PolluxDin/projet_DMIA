@@ -15,6 +15,15 @@
         android:theme="@style/Theme.DM_projet"
         tools:targetApi="31">
         <activity
+            android:name=".UserActivity"
+            android:exported="false"
+            android:label="@string/title_activity_user"
+            android:theme="@style/Theme.DM_projet">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".detail.DetailActivity"
             android:exported="false"
             android:label="@string/title_activity_detail"
