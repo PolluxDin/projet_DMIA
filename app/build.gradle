@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.ding_mouhamed.dm_projet'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.ding_mouhamed.dm_projet"
-        minSdk 23
-        targetSdk 32
+        minSdk 21
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -58,9 +58,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.fragment:fragment-ktx:1.5.5"
-    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.activity:activity-ktx:1.6.1"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.activity:activity-compose:1.6.1'
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation 'androidx.compose.material:material:1.1.1'

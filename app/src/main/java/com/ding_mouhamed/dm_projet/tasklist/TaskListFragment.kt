@@ -14,10 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import com.ding_mouhamed.dm_projet.data.API
 import com.ding_mouhamed.dm_projet.databinding.FragmentTaskListBinding
 import com.ding_mouhamed.dm_projet.detail.DetailActivity
+import com.ding_mouhamed.dm_projet.user.UserActivity
 import kotlinx.coroutines.launch
 
 import coil.load
-import android.widget.ImageView
+import com.ding_mouhamed.dm_projet.R
 
 
 class TaskListFragment : Fragment() {
@@ -29,13 +30,17 @@ class TaskListFragment : Fragment() {
     private val createTask =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val task = result.data?.getSerializableExtra("Task") as Task?
-            val boolean = task == null
             try {
                 viewModel.add(task!!)
             }
             catch (e:java.lang.NullPointerException){
                 println("crash here")
             }
+    }
+
+    private val imageEditor = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+
     }
 
     override fun onCreateView(
@@ -49,13 +54,21 @@ class TaskListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val intent = Intent(context, DetailActivity::class.java)
+
         val recyclerView = binding.reList
+        recyclerView.adapter = adapter
+
         val button = binding.floatingActionButton
         val imageView = binding.userImageView
-        recyclerView.adapter = adapter
+
         button.setOnClickListener{
+            val intent = Intent(context, DetailActivity::class.java)
             createTask.launch(intent)
+        }
+
+        imageView.setOnClickListener{
+            val intent = Intent(context, UserActivity::class.java)
+            imageEditor.launch(intent)
         }
 
         adapter.onClickDelete = {
@@ -72,21 +85,26 @@ class TaskListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refresh()
-        var imageView = binding.userImageView
+//        val imageView = binding.userImageView
         lifecycleScope.launch {
             mySuspendMethod()
-
         }
-        imageView.load("https://goo.gl/gEgYUd")
+//        imageView.load("https://goo.gl/gEgYUd")
     }
 
     private suspend fun mySuspendMethod(){
         try {
             val user = API.userWebService.fetchUser().body()!!
             binding.userTextView.text =  user.name
+            binding.userImageView.load(user.avatar) {
+                error(R.drawable.ic_launcher_background) // image par défaut en cas d'erreur
+            }
         }
         catch (e:java.lang.NullPointerException){
             println("crash here")
         }
+
+
+
     }
 }
