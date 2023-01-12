@@ -30,12 +30,15 @@ class TaskListFragment : Fragment() {
     private val createTask =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val task = result.data?.getSerializableExtra("Task") as Task?
-            try {
-                viewModel.add(task!!)
-            }
-            catch (e:java.lang.NullPointerException){
-                println("crash here")
-            }
+            viewModel.add(task!!)
+            viewModel.refresh()
+
+    }
+
+    private val editTask = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val task = result.data?.getSerializableExtra("task") as Task?
+            viewModel.edit(task!!)
+            viewModel.refresh()
     }
 
     private val imageEditor = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -75,6 +78,12 @@ class TaskListFragment : Fragment() {
             viewModel.remove(it)
         }
 
+        adapter.onClickEdit = {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("Task",it)
+            editTask.launch(intent)
+        }
+
         lifecycleScope.launch { // on lance une coroutine car `collect` est `suspend`
             viewModel.tasksStateFlow.collect { newList ->
                 adapter.submitList(newList)
@@ -85,17 +94,16 @@ class TaskListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refresh()
-//        val imageView = binding.userImageView
         lifecycleScope.launch {
             mySuspendMethod()
         }
-//        imageView.load("https://goo.gl/gEgYUd")
     }
 
     private suspend fun mySuspendMethod(){
         try {
             val user = API.userWebService.fetchUser().body()!!
             binding.userTextView.text =  user.name
+            binding.userTextView.textSize = 30f
             binding.userImageView.load(user.avatar) {
                 error(R.drawable.ic_launcher_background) // image par défaut en cas d'erreur
             }

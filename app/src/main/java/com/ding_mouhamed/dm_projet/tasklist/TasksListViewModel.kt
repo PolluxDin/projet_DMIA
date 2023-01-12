@@ -36,6 +36,7 @@ class TasksListViewModel : ViewModel() {
                 tasksStateFlow.value + toAddTask
         }
     }
+
     fun edit(task: Task) {
         viewModelScope.launch {
             val response = webService.update(task) // Call HTTP (opération longue)
@@ -48,6 +49,7 @@ class TasksListViewModel : ViewModel() {
                 tasksStateFlow.value.map { if (it.id == updatedTask.id) updatedTask else it }
         }
     }
+
     fun remove(task: Task) {
         viewModelScope.launch {
             val response = webService.delete(task.id) // Call HTTP (opération longue)

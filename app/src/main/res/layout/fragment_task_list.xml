@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/userImageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="TODO"></ImageView>
@@ -17,8 +17,8 @@
         android:id="@+id/userTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="184dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="120dp"
         android:text="@string/textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -35,7 +35,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userTextView"
-        app:layout_constraintVertical_bias="0.006">
+        app:layout_constraintVertical_bias="0.07">
 
     </androidx.recyclerview.widget.RecyclerView>
 
