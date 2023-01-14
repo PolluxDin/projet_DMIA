@@ -20,6 +20,14 @@ import java.util.*
 class DetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val task = intent.getSerializableExtra("Task") as Task?
+        val onValidate = { task: Task -> Unit
+            intent.putExtra("Task", task)
+            setResult(RESULT_OK,intent)
+            finish()
+        }
+
         setContent {
             DM_projetTheme {
                 // A surface container using the 'background' color from the theme
@@ -28,11 +36,7 @@ class DetailActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
 
                 ) {
-                    Detail(){
-                        intent.putExtra("Task", it)
-                        setResult(RESULT_OK,intent)
-                        finish()
-                    }
+                    Detail(onValidate = onValidate, task)
                 }
             }
         }
@@ -40,19 +44,21 @@ class DetailActivity : ComponentActivity() {
 }
 
 @Composable
-fun Detail(onValidate: (Task) -> Unit) {
-    var taskTitle by remember { mutableStateOf( "") }
-    var taskDescription by remember { mutableStateOf("") }
-    Column(Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text(text = "Task Detail", style = MaterialTheme.typography.h2)
-        OutlinedTextField(value = taskTitle, onValueChange = { taskTitle = it }, label = { Text("Title") })
-        OutlinedTextField(value = taskDescription, onValueChange = { taskDescription = it }, label = { Text("Description") })
+fun Detail(onValidate: (Task) -> Unit, defaultTask: Task?) {
 
-        Button(onClick = {
-            val newTask = Task(id = UUID.randomUUID().toString(), title = taskTitle, description = taskDescription)
-            onValidate(newTask)
-        }) {
+    var task by remember { mutableStateOf(defaultTask) }
+    if(task == null){
+        task = Task(id = UUID.randomUUID().toString(), title = "", description = "")
+    }
+    Column(
+        Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(text = "Task Detail", style = MaterialTheme.typography.h2)
+        OutlinedTextField(value = task!!.title , onValueChange = { task = task?.copy(title = it) }, label = { Text("Title") })
+        OutlinedTextField(value = task!!.description, onValueChange = { task = task?.copy(description = it) }, label = { Text("Description") })
+
+        Button(onClick = { onValidate(task!!) }) {
             Text(text = "Validation")
         }
     }
@@ -62,6 +68,6 @@ fun Detail(onValidate: (Task) -> Unit) {
 @Composable
 fun DefaultPreview() {
     DM_projetTheme {
-        Detail(){}
+
     }
 }

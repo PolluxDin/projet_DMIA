@@ -23,6 +23,7 @@ import com.ding_mouhamed.dm_projet.R
 
 class TaskListFragment : Fragment() {
 
+
     private val adapter = TaskListAdapter()
     private lateinit var binding: FragmentTaskListBinding
     private val viewModel: TasksListViewModel by viewModels()
@@ -32,17 +33,15 @@ class TaskListFragment : Fragment() {
             val task = result.data?.getSerializableExtra("Task") as Task?
             viewModel.add(task!!)
             viewModel.refresh()
-
     }
 
     private val editTask = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val task = result.data?.getSerializableExtra("task") as Task?
+            val task = result.data?.getSerializableExtra("Task") as Task?
             viewModel.edit(task!!)
             viewModel.refresh()
     }
 
     private val imageEditor = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-
 
     }
 
@@ -76,11 +75,12 @@ class TaskListFragment : Fragment() {
 
         adapter.onClickDelete = {
             viewModel.remove(it)
+            viewModel.refresh()
         }
 
         adapter.onClickEdit = {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("Task",it)
+            intent.putExtra("Task", it)
             editTask.launch(intent)
         }
 
@@ -111,8 +111,5 @@ class TaskListFragment : Fragment() {
         catch (e:java.lang.NullPointerException){
             println("crash here")
         }
-
-
-
     }
 }

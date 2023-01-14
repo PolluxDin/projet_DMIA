@@ -39,9 +39,9 @@ class TasksListViewModel : ViewModel() {
 
     fun edit(task: Task) {
         viewModelScope.launch {
-            val response = webService.update(task) // Call HTTP (opération longue)
+            val response = webService.update(task, task.id) // Call HTTP (opération longue)
             if (!response.isSuccessful) { // à cette ligne, on a reçu la réponse de l'API
-                Log.e("Network", "Error: ${response.message()}")
+                Log.e("Network", "Error: ${response.raw()}")
                 return@launch
             }
             val updatedTask = response.body()!!

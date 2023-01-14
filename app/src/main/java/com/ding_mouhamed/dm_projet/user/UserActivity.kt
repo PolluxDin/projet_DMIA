@@ -82,6 +82,7 @@ class UserActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
+                        Text(text = "User Info", style = MaterialTheme.typography.h2)
                         AsyncImage(
                             modifier = Modifier.fillMaxHeight(.2f),
                             model = bitmap ?: uri,
