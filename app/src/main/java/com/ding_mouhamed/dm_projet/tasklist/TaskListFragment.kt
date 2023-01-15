@@ -103,7 +103,7 @@ class TaskListFragment : Fragment() {
         try {
             val user = API.userWebService.fetchUser().body()!!
             binding.userTextView.text =  user.name
-            binding.userTextView.textSize = 30f
+            binding.userTextView.textSize = 20f
             binding.userImageView.load(user.avatar) {
                 error(R.drawable.ic_launcher_background) // image par défaut en cas d'erreur
             }

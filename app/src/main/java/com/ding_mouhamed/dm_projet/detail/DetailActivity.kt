@@ -59,7 +59,7 @@ fun Detail(onValidate: (Task) -> Unit, defaultTask: Task?) {
         OutlinedTextField(value = task!!.description, onValueChange = { task = task?.copy(description = it) }, label = { Text("Description") })
 
         Button(onClick = { onValidate(task!!) }) {
-            Text(text = "Validation")
+            Text(text = "Valid")
         }
     }
 }

@@ -17,8 +17,8 @@
         android:id="@+id/userTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="140dp"
         android:text="@string/textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -35,7 +35,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userTextView"
-        app:layout_constraintVertical_bias="0.07">
+        app:layout_constraintVertical_bias="0.061">
 
     </androidx.recyclerview.widget.RecyclerView>
 

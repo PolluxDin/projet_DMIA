@@ -108,7 +108,7 @@ class UserActivity : ComponentActivity() {
                         )
                         Button(
                             onClick = { onValidate(updatedUser) } ) {
-                            Text("Validate")
+                            Text("Valid")
                         }
                     }
                 }
